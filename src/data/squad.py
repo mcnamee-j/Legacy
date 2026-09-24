@@ -18,6 +18,9 @@ SUBS = 5
 class SalaryCapExceeded(Exception):
     pass
 
+class InvalidLineup(Exception):
+    pass
+
 class Squad:
     def __init__(self, players: List[Player], salary_cap: int):
         self.players: List[Player] = players
@@ -59,4 +62,21 @@ class Squad:
         if player in self.subs:
             self.subs.remove(player)
 
+
+
     # need lineup functionality here - add, remove, select formation
+    def set_lineup(self, starting_xi: List[Player], formation: str, subs: List[Player]):
+        if formation not in FORMATIONS:
+            raise InvalidLineup(
+                f"The formation selected is unknown: {self.formation}"
+            )
+        if len(starting_xi) != 11:
+            raise InvalidLineup(
+                f"The starting lineup requires exactly 11 players - Currently selected: {len(self.starting_xi)}"
+            )
+        if len(subs) != SUBS:
+            raise InvalidLineup(
+                f"A total of 5 subs can be selected - Currently selected: {len(self.subs)}"
+            )
+
+        # should enforce a selection of goalkeeper also
