@@ -78,5 +78,27 @@ class Squad:
             raise InvalidLineup(
                 f"A total of 5 subs can be selected - Currently selected: {len(self.subs)}"
             )
-
+        for player in starting_xi + subs:
+            if player not in self.players:
+                raise InvalidLineup(f"{player.name} is not in the squad")
         # should enforce a selection of goalkeeper also
+        gks = [player for player in starting_xi if player.position == "GK"]
+        if len(gks) != 1:
+            raise InvalidLineup(f"Starting XI must contain 1 GK - Currently selected: {len(gks)}")
+
+        #enforcing formation
+        required_positions = FORMATIONS[formation]
+        for generic_position, number_needed in required_positions.items():
+            total = len([player for player in starting_xi if player.position == generic_position])
+            if total != number_needed:
+                raise InvalidLineup(f"{formation} requires {number_needed} {generic_position} - you currently have selected {total}")
+
+        self.starting_xi = starting_xi
+        self.subs = subs
+        self.formation = formation
+
+    # produce a team overall rating
+    def team_overall(self) -> float:
+        if len(self.starting_xi != 11):
+            raise InvalidLineup(f"Please select a valid starting lineup before progressing")
+        return sum(player.overall for player in self.starting_xi)/11
