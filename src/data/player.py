@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class Player:
@@ -13,6 +14,8 @@ class Player:
         tier: str
         wage: int
         era: str
+        rating_min: Optional[int] = None
+        rating_max: Optional[int] = None
 
         def __post_init__(self): #runs directly after constructor finishes
                 if not (0 <= self.overall <= 99):

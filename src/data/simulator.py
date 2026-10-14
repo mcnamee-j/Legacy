@@ -22,7 +22,7 @@ def convert_xg_to_goals(lam):
         if p <= L:
             return k - 1
 
-def simulate_match(home_team_ovr, away_team_ovr):
+def simulate_match_outcomes(home_team_ovr, away_team_ovr):
     # can manipulate the base xG based on team overall and home advantage
     diff_ovr = home_team_ovr - away_team_ovr
 
@@ -48,7 +48,7 @@ def generate_goal_events(starting_xi, goals_scored):
         return []
 
     goal_events = []
-    
+
     goal_scorers = random.choices(starting_xi, weights = [(player.attack ** 2) * POSITION_GOAL_WEIGHT[player.position] for player in starting_xi], k = goals_scored)
 
     # for assists, need to remove goal scorers and also consider that not all goals have assists   
@@ -63,3 +63,13 @@ def generate_goal_events(starting_xi, goals_scored):
         goal_events.append({"scorer": scorer.name, "assister": assister_name})
 
     return goal_events
+
+def play_match(home_team, away_team):
+    # get overalls
+    home_ovr = home_team.squad.team_overall()
+    away_ovr = away_team.squad.team_overall()
+
+    match_outcomes = simulate_match_outcomes(home_ovr, away_ovr)
+
+    home_events = generate_goal_events(home_team.squad.starting_xi, match_outcomes[0])
+    away_events = generate_goal_events(away_team.squad.starting_xi, match_outcomes[2])

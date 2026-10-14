@@ -10,6 +10,7 @@ FORMATIONS = {
     "4-5-1": {"DEF": 4, "MID": 5, "FOR": 1},
     "3-5-2": {"DEF": 3, "MID": 5, "FOR": 2},
     "5-3-2": {"DEF": 5, "MID": 3, "FOR": 2},
+    "3-4-3": {"DEF": 3, "MID": 4, "FOR": 3}
 }
 
 SUBS = 5
@@ -99,6 +100,6 @@ class Squad:
 
     # produce a team overall rating
     def team_overall(self) -> float:
-        if len(self.starting_xi != 11):
+        if len(self.starting_xi) != 11:
             raise InvalidLineup(f"Please select a valid starting lineup before progressing")
         return sum(player.overall for player in self.starting_xi)/11
