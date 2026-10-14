@@ -69,7 +69,23 @@ def play_match(home_team, away_team):
     home_ovr = home_team.squad.team_overall()
     away_ovr = away_team.squad.team_overall()
 
-    match_outcomes = simulate_match_outcomes(home_ovr, away_ovr)
+    home_goals, home_xg, away_goals, away_xg = simulate_match_outcomes(home_ovr, away_ovr)
 
-    home_events = generate_goal_events(home_team.squad.starting_xi, match_outcomes[0])
-    away_events = generate_goal_events(away_team.squad.starting_xi, match_outcomes[2])
+    home_events = generate_goal_events(home_team.squad.starting_xi, home_goals)
+    away_events = generate_goal_events(away_team.squad.starting_xi, away_goals)
+
+    home_scorers = [goal["scorer"] for goal in home_events]
+    home_assisters = [goal["assister"] for goal in home_events if goal["assister"] is not None]
+
+    away_scorers = [goal["scorer"] for goal in away_events]
+    away_assisters = [goal["assister"] for goal in away_events if goal["assister"] is not None]
+
+    home_team.record_match_team_results(home_goals, away_goals, home_scorers, home_assisters)
+    away_team.record_match_team_results(away_goals, home_goals, away_scorers, away_assisters)
+
+    return {
+        "home": home_team.name, "away": away_team.name,
+        "home_goals": home_goals, "away_goals": away_goals,
+        "home_xg": home_xg, "away_xg": away_xg,
+        "home_events": home_events, "away_events": away_events,
+    }

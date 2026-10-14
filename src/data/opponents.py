@@ -59,6 +59,3 @@ def load_opponents(path):
         teams.append(Team(team_name, squad))
 
     return teams
-
-for team in load_opponents("opponents.xlsx"):
-    print(f"{team.name:20} {team.squad.team_overall():5.1f}")
