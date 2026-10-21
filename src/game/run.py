@@ -10,6 +10,9 @@ from simulator import play_match
 teams = load_opponents(DATA_DIR / "opponents.xlsx")
 by_name = {team.name: team for team in teams}
 
-result = play_match(by_name["Arsenal"], by_name["Hull"])
-print(result["home"], result["home_goals"], "-", result["away_goals"], result["away"])
-print(result["home_events"])
+from united import build_united
+
+united, pool = build_united(DATA_DIR / "United.xlsx")
+print(united.squad.starting_xi)
+print("Team overall:", round(united.squad.team_overall(), 1))
+print("Wage bill:", united.squad.total_wage, "of", united.squad.salary_cap)

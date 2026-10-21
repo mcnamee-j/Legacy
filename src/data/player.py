@@ -23,7 +23,7 @@ class Player:
                 if self.wage < 0:
                         raise ValueError(f"{self.name} cannot have a negative wage")
         def __repr__(self):
-                return f"Player: {self.name} [{self.position}] - {self.position_d}) OVR {self.overall} - {self.tier}"
+                return f"Player: {self.name} [{self.position}] - {self.position_d} OVR {self.overall} - {self.tier}"
 
         @classmethod
         def from_row(cls, row: dict) -> "Player":

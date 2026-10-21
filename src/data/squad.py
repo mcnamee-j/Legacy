@@ -69,15 +69,15 @@ class Squad:
     def set_lineup(self, starting_xi: List[Player], formation: str, subs: List[Player]):
         if formation not in FORMATIONS:
             raise InvalidLineup(
-                f"The formation selected is unknown: {self.formation}"
+                f"The formation selected is unknown: {formation}"
             )
         if len(starting_xi) != 11:
             raise InvalidLineup(
-                f"The starting lineup requires exactly 11 players - Currently selected: {len(self.starting_xi)}"
+                f"The starting lineup requires exactly 11 players - Currently selected: {len(starting_xi)}"
             )
         if len(subs) != SUBS:
             raise InvalidLineup(
-                f"A total of 5 subs can be selected - Currently selected: {len(self.subs)}"
+                f"A total of 5 subs can be selected - Currently selected: {len(subs)}"
             )
         for player in starting_xi + subs:
             if player not in self.players:
